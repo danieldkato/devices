@@ -1,1 +1,8 @@
 # devices
+
+This repo contains code for controlling Arduino-managed devices for ArduFSM protcols like MultiSens. 
+These files were formerly located in the MultiSens protocol directory in the ArduFSM repo itself, but I decided that they might be useful for multiple protocols. Moreover, the MultiSens directory already contains a lot of files, so moving these files out declutters it a little. 
+
+I could have moved these files to ArduFSM's libraries folder, but decided against it. The reason is that these files have to be in the libraries folder in the top-level Arduino sketchbook folder, which is NOT the same as the libraries folder in ArduFSM - this is true for Chris, whose ArduFSM folder IS his Arduino sketchbook folder, but on most other systems, ArduFSM will be a subdirectory of the top-level Arduino sketchbook folder. Thus, even if these scripts were included in the ArduFSM libraries folder, one would have to remember to move them to the top-level Arduino libraries folder every time one pulled them from github anyway. This would mean that every time one wanted to pull the most updated version of devices, one would have to pull from ArduFSM then transfer it to the main sketchbook library. It seems more straightforward to just have a devices repo saved in the main sketchbook library that can pull from github directly to the correct location.
+
+I may ultimately decide, however, that the functionality included in this code is really specific to MultiSens after all, or that including functionality for all protocols that might use something like this would be too unwieldy and revert to having separate devices.h and devices.cpp files for each protocol that needs them.
