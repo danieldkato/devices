@@ -11,7 +11,7 @@ Each class includes a `loop` function and an `s_finish` function. `loop` passes 
 
 `s_finish` specifies how the device should behave at the end of a stimulus period. This includes things like turning off all speakers, retracting all steppers, etc. 
 
-Because all of these device classes inherit from the same parent class (`Device`), all instances can be placed in an array, then some referring program (like a protocol's `States.cpp`) can iterate through the array and call each device's `loop` function throughout the duration of some stimulus period. The `ArduFSM` program can thus update what each device should be doing on every pass of its state-dependent operations, allowing for near-simultaneous control of multiple devices throughout the duration of some stimulus period.    
+Because all of these device classes inherit from the same parent class (`Device`), all instances can be placed in an array, then some referring program can iterate through the array and call each device's `loop` function throughout the duration of some stimulus period. In practice, the `MultiSens` protocol's `States.cpp` defines a stimulus-period object that iterates through such an array throughout the duration of the stimulus period. The `ArduFSM` program can thus update what each device should be doing on every pass of its state-dependent operations, allowing for near-simultaneous control of multiple devices throughout the duration of some stimulus period.    
 
 The library currently consists of the following devices:
 
