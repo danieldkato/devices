@@ -6,7 +6,8 @@
  *
  *
  * REQUIREMENTS: 
- * This file should be in the same directory as its header file `devices.h`. In 
+ * This file should be in the same directory as its header file `devices.h`. The 
+ * directory must be saved in the Arduino sketchbook's library folder. In 
  * addition, the Arduino sketchbook's library folder should contain the following
  * libraries:
  * 
