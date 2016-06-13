@@ -1,23 +1,19 @@
-/* Header file with device class declarations. All device
- * classes inherit from the parent class "Device", and 
- * include an updateDev function that takes 4 arguments:
+/*  Last updated DDK 6/7/16
  * 
- * 1) an integer index indicating (via conditional
- * statement) which one of a discrete number of actions 
- * the device should perform on the current trial,
+ * OVERVIEW:
+ * This is the header file for the library `devices`, used for controlling
+ * Arduino-managed devices for `ArduFSM` protocols like `MultiSens`.
+ *
+ *
+ * REQUIREMENTS: 
+ * This file should be in the same directory as its source file `devices.cpp`. The 
+ * directory must be saved in the Arduino sketchbook's library folder. In 
+ * addition, the Arduino sketchbook's library folder should contain the following
+ * libraries:
  * 
- * 2) the time (relative to trial start) to begin the
- * action,
- * 
- * 3) the time (relative to trials start) to end the action,
- * and 
- * 
- * 4) the trial start time. 
- * 
- * The devices to be used in a given experiment are
- * instantiated in a function defined in config.h and
- * config.cpp, called from the main sketch
- * multisens_hw_control.ino 
+ * * `Arduino`
+ * * `Stepper`
+ * * `Tone`
  */
 
 #ifndef DEVS_MS_INCLUDED
