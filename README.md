@@ -8,7 +8,7 @@ This repo contains code for controlling Arduino-managed devices for `ArduFSM` pr
 
 
 ##REQUIREMENTS:
-This directory must be saved in the library folder of the local system's Arduino sketchbook directory. It should consist of the header file `devices.h` and the source file `devices.cpp`.
+This directory must be saved in the `library` folder of the local system's Arduino sketchbook directory. It should consist of the header file `devices.h` and the source file `devices.cpp`.
 
 In addition, the Arduino sketchbook library folder should contain the following libraries:
 
