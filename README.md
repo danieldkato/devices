@@ -1,7 +1,21 @@
+*Last updated DDK 6/7/13*
+
 #DEVICES
+
 
 ##OVERVIEW:
 This repo contains code for controlling Arduino-managed devices for `ArduFSM` protcols like `MultiSens`. 
+
+
+##REQUIREMENTS:
+This directory should consist of the header file `devices.h` and the source file `devices.cpp`.
+
+In addition, the Arduino sketchbook library folder should contain the following librari
+es:
+
+* `Arduino`
+* `Stepper`
+* `Tone`
 
 
 ##DESCRIPTION:
