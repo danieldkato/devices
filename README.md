@@ -18,7 +18,7 @@ In addition, the Arduino sketchbook library folder should contain the following 
 
 
 ##DESCRIPTION:
-This library defines a number of device classes, each of which corresponds to a type of device that might be controlled from an Arduino - e.g., steppers, speakers, solenoids, etc. 
+This library defines a number of device classes, each of which corresponds to a type of device that might be controlled from an Arduino - e.g., a stepper, a speaker, a solenoid, etc. 
 
 Each class includes a `loop` function and an `s_finish` function. `loop` passes an integer index to a dispatch table that specifies some action the device should perform. For example, if a `Speaker` object is given an index of `0`, its `loop` function may do nothing; if it is given an index of `1`, it may generate a random tone. 
 
