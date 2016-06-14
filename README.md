@@ -4,7 +4,7 @@
 
 
 ##OVERVIEW:
-This repo contains code for controlling Arduino-managed devices for `ArduFSM` protcols like `MultiSens`. 
+Library containing class definitions for device objects used to represent and manage the behavior of Arduino-controlled hardware for `ArduFSM` protcols like `MultiSens`. 
 
 
 ##REQUIREMENTS:
