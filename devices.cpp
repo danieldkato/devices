@@ -113,7 +113,6 @@ void mySpeaker::loop( int fcnIdx ){
 }
 
 void mySpeaker::s_finish(){
-    //myTones[0].stop();
     noTone(_pin);
 }
 
