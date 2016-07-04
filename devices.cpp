@@ -96,9 +96,9 @@ void dummySpeaker::s_finish(){}
 //Speaker class defintions**********************************
 
 //constructor
-mySpeaker::mySpeaker( int pin ){
-	pinMode( pin, OUTPUT ); //configure speaker pin for output
-	myTones[0].begin( pin ); //configure speaker pin to play tone object myTones
+mySpeaker::mySpeaker( int pin ):_pin(pin){
+	pinMode( _pin, OUTPUT ); //configure speaker pin for output
+	//myTones[0].begin( pin ); //configure speaker pin to play tone object myTones
 }
 
 //Standard updateDev function required for all device classes:
@@ -109,12 +109,15 @@ void mySpeaker::loop( int fcnIdx ){
 
   //mySpeaker action 2: play a tone
   else if ( fcnIdx == 1 ){
-    int freq = random( 10000, 20000 );
-    myTones[0].play(freq);
+    //myTones[0].play(freq);
+    tone(_pin,random(10000,20000));
   }
 }
 
-void mySpeaker::s_finish(){myTones[0].stop();}
+void mySpeaker::s_finish(){
+    //myTones[0].stop();
+    noTone(_pin);
+}
 
 //myStepper class definitions*********************************
 /* This is the standard Arduino stepper library plus my 
