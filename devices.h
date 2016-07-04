@@ -21,7 +21,6 @@
 
 #include "Arduino.h"
 #include <Stepper.h>
-//#include <Tone.h>
 
 //Parent device declarations*******************************
 class Device{
@@ -75,7 +74,6 @@ class mySpeaker: public Device{
   
     private:
 	int _pin;
-        //Tone myTones[1]; 
 };
 
 
