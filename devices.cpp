@@ -192,7 +192,7 @@ void myStepper::fwd(){
   delay(100);
   this->hallVal = analogRead( this->hallPin );
   while( this->hallVal > this->hallThresh ){
-    this -> step( -1 );
+    this -> step( 1 );
     delay( 1 );
     this->hallVal = analogRead( this->hallPin );
   }
