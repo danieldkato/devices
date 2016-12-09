@@ -122,7 +122,33 @@ standard updateDev function, some higher-level "extend"
 and "retract" function and related variables, and hall 
 effect sensor variables. */
 
+//alternate constructor for stepper object using stepper motor driver
+myStepper::myStepper(int stpPin, int dirPin, int hallPin, int hallThresh, int hallVal, int stepHalfdelay, int microstep)
+{
+	this->stpPin = stpPin;
+	this->dirPin = dirPin;
+	this->hallPin = hallPin;
+	this->hallThresh = hallThresh;
+	this->hallVal = hallVal;
+	this->stepHalfDelay = stepHalfDelay; 
+	this->microstep = microstep;
+	this->stprState = "RETRACTED";
+	
+	pinMode(this->stpPin, OUTPUT);
+	pinMode(this->dirPin, OUTPUT);
+}
+
+void myStepper::rotate_one_step()
+{
+	digitalWrite(stpPin, HIGH);
+	delayMicroseconds( stepHalfDelay / microstep );
+	digitalWrite(stpPin, LOW);
+	delayMicroseconds( stepHalfDelay / microstep );
+}
+
+
 //constructor
+/*
 myStepper::myStepper(int number_of_steps, int motor_pin_1, int motor_pin_2, int enbl, int hallPin, int hallThresh,  int stprSpeed, int CW, int CCW, int hallVal )
 {
 	this->step_number = 0;    // which step the motor is on
@@ -161,7 +187,7 @@ myStepper::myStepper(int number_of_steps, int motor_pin_1, int motor_pin_2, int 
 	
 	this->setSpeed(stprSpeed);
 }
-
+*/
 
 /*DK 151208: Standard updateDev function required for all device 
 classes:*/
@@ -180,13 +206,17 @@ void myStepper::loop( int fcnIdx ){
 }
 
 void myStepper::s_finish(){ 
-  this -> back(); 
-  this -> stprState = "RETRACTED";
+  if (this->stprState == "EXTENDED"){
+	this -> back(); 
+	this -> stprState = "RETRACTED";
+  }
 }
 
+/*
 /*DK 151208: high-level function for extending stepper 100 steps 
 with Hall effect sensor feedback in a single discrete function 
 call (taken from Clay). */
+/*
 void myStepper::fwd(){
   digitalWrite( this->enbl, HIGH);
   delay(100);
@@ -196,19 +226,43 @@ void myStepper::fwd(){
     delay( 1 );
     this->hallVal = analogRead( this->hallPin );
   }
+  Serial.println("stepper extended");
   this->stprState = "EXTENDED";
+}
+*/
+
+// Alternative version of myStepper:fwd that uses rotate_one_step in order to accommodate use of the stepper motor driver
+void myStepper::fwd(){
+	digitalWrite(dirPin, LOW);
+	this->hallVal = analogRead(hallPin);
+	while(hallVal>hallThresh){
+		rotate_one_step(); //how to deal with direction??
+		delay(1);
+		hallVal = analogRead(hallPin);
+	}
+	Serial.println("stepper extended");
+	stprState = "EXTENDED";
+}
+
+void myStepper::back(){
+	digitalWrite(dirPin, HIGH);
+	delay(1);
+	for(int i = 0; i < 50; i++){rotate_one_step(); delay(1);}
+	Serial.println("stepper retracted");
+	stprState = "RETRACTED";
 }
 
 
 /*DK 151208: high-level function for fully retracting stepper in a 
 single discrete function call (taken from Clay). */
+/*
 void myStepper::back(){
   this -> step( this-> CCW );
   delay(200);
   digitalWrite( this->enbl, LOW );
   this->stprState = "RETRACTED";
 }
-
+*/
 
 //Sets the speed in revs per minute
 void myStepper::setSpeed(long whatSpeed)

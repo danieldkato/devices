@@ -84,7 +84,7 @@ variables, and hall effect sensor variables. */
 class myStepper: public Device {
     public:
         //constructor
-        myStepper(int number_of_steps, int motor_pin_1, int motor_pin_2, int enbl, int hallPin, int hallThresh, int stprSpeed, int CW, int CCW, int hallVal);
+        myStepper(int spkrPin, int dirPin, int hallPin, int hallThresh, int hallVal, int stepHalfDelay, int microstep);
 
         /*DK 151208: my update function that I need to define 
             in every device*/
@@ -105,6 +105,7 @@ class myStepper: public Device {
     
         // mover method:
         void step(int number_of_steps);
+	void rotate_one_step();
     
         int version(void);
 
@@ -117,6 +118,11 @@ class myStepper: public Device {
     function */
         void fwd();
         void back();
+
+	int stpPin;
+	int dirPin;
+	int stepHalfDelay;
+	int microstep;
 
     //DK 151208: hall effect sensor variables 
         int enbl;
