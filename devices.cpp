@@ -236,17 +236,29 @@ void myStepper::fwd(){
 */
 
 // Alternative version of myStepper:fwd that uses rotate_one_step in order to accommodate use of the stepper motor driver
+
 void myStepper::fwd(){
 	digitalWrite(dirPin, HIGH);
 	//this->hallVal = analogRead(hallPin);
 	while(analogRead(hallPin)>hallThresh){
 		rotate_one_step(); //how to deal with direction??
-		//delay(1);
+		delay(1);
 		//hallVal = analogRead(hallPin);
 	}
 	Serial.println("stepper extended");
 	stprState = "EXTENDED";
 }
+
+
+/*
+void myStepper::fwd(){
+	digitalWrite(dirPin, HIGH);
+	//this->hallVal = analogRead(hallPin);
+	for(int i = 0; i < numReverseSteps; i++){rotate_one_step();delay(1);}
+	Serial.println("stepper extended");
+	stprState = "EXTENDED";
+}
+*/
 
 void myStepper::back(){
 	digitalWrite(dirPin, LOW);
