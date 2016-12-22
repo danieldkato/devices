@@ -22,6 +22,8 @@
 #include "Arduino.h"
 #include <Stepper.h>
 
+#define FULLSTP_PER_ROTATION 200
+
 //Parent device declarations*******************************
 class Device{
     public:
@@ -84,7 +86,7 @@ variables, and hall effect sensor variables. */
 class myStepper: public Device {
     public:
         //constructor
-        myStepper(int spkrPin, int dirPin, int hallPin, int hallThresh, int hallVal, int stepHalfDelay, int microstep);
+        myStepper(int spkrPin, int dirPin, int hallPin, int hallThresh, int hallVal, int stepHalfDelay, int microstep, int reverseRotDeg);
 
         /*DK 151208: my update function that I need to define 
             in every device*/
@@ -123,7 +125,9 @@ class myStepper: public Device {
 	int dirPin;
 	int stepHalfDelay;
 	int microstep;
-
+	int reverseRotDeg;
+	int numReverseSteps;
+    
     //DK 151208: hall effect sensor variables 
         int enbl;
         int hallPin;

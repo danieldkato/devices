@@ -123,7 +123,7 @@ and "retract" function and related variables, and hall
 effect sensor variables. */
 
 //alternate constructor for stepper object using stepper motor driver
-myStepper::myStepper(int stpPin, int dirPin, int hallPin, int hallThresh, int hallVal, int stepHalfdelay, int microstep)
+myStepper::myStepper(int stpPin, int dirPin, int hallPin, int hallThresh, int hallVal, int stepHalfdelay, int microstep, int reverseRotDeg)
 {
 	this->stpPin = stpPin;
 	this->dirPin = dirPin;
@@ -132,7 +132,9 @@ myStepper::myStepper(int stpPin, int dirPin, int hallPin, int hallThresh, int ha
 	this->hallVal = hallVal;
 	this->stepHalfDelay = stepHalfDelay; 
 	this->microstep = microstep;
+	this->reverseRotDeg = reverseRotDeg;
 	this->stprState = "RETRACTED";
+	this->numReverseSteps = floor( (reverseRotDeg/360.0) * FULLSTP_PER_ROTATION) * microstep;
 	
 	pinMode(this->stpPin, OUTPUT);
 	pinMode(this->dirPin, OUTPUT);
@@ -141,8 +143,10 @@ myStepper::myStepper(int stpPin, int dirPin, int hallPin, int hallThresh, int ha
 void myStepper::rotate_one_step()
 {
 	digitalWrite(stpPin, HIGH);
+	//PORTD |=_BV(PD6);
 	delayMicroseconds( stepHalfDelay / microstep );
 	digitalWrite(stpPin, LOW);
+	//PORTD &= ~_BV(PD6);
 	delayMicroseconds( stepHalfDelay / microstep );
 }
 
@@ -199,8 +203,8 @@ void myStepper::loop( int fcnIdx ){
   //myStepper action 2: extend stepper if stepper is retracted
   else if ( fcnIdx == 1 ){
     if ( this->stprState == "RETRACTED" ){ 
-      this -> fwd(); 
-      this -> stprState = "EXTENDED";
+      fwd(); 
+      stprState = "EXTENDED";
     }
   }
 }
@@ -208,7 +212,7 @@ void myStepper::loop( int fcnIdx ){
 void myStepper::s_finish(){ 
   if (this->stprState == "EXTENDED"){
 	this -> back(); 
-	this -> stprState = "RETRACTED";
+	//this -> stprState = "RETRACTED";
   }
 }
 
@@ -233,21 +237,21 @@ void myStepper::fwd(){
 
 // Alternative version of myStepper:fwd that uses rotate_one_step in order to accommodate use of the stepper motor driver
 void myStepper::fwd(){
-	digitalWrite(dirPin, LOW);
-	this->hallVal = analogRead(hallPin);
-	while(hallVal>hallThresh){
+	digitalWrite(dirPin, HIGH);
+	//this->hallVal = analogRead(hallPin);
+	while(analogRead(hallPin)>hallThresh){
 		rotate_one_step(); //how to deal with direction??
-		delay(1);
-		hallVal = analogRead(hallPin);
+		//delay(1);
+		//hallVal = analogRead(hallPin);
 	}
 	Serial.println("stepper extended");
 	stprState = "EXTENDED";
 }
 
 void myStepper::back(){
-	digitalWrite(dirPin, HIGH);
-	delay(1);
-	for(int i = 0; i < 50; i++){rotate_one_step(); delay(1);}
+	digitalWrite(dirPin, LOW);
+	//delay(10);
+	for(int i = 0; i < numReverseSteps; i++){rotate_one_step(); delay(1);}
 	Serial.println("stepper retracted");
 	stprState = "RETRACTED";
 }
